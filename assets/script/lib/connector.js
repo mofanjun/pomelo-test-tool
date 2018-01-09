@@ -31,3 +31,12 @@ connector.entry = function(host,port,opts,callback){
         })
     })
 }
+
+connector.requestRoomList = function(params,callback){
+    pomelo.request("lobbysvr.lobbyHandler.queryCoinRoomList",params,function(data){
+        if(data instanceof Error){
+            return callback(data,null);
+        }
+        callback(null,data);
+    })
+}
