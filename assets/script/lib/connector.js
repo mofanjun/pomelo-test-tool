@@ -40,3 +40,12 @@ connector.requestRoomList = function(params,callback){
         callback(null,data);
     })
 }
+
+connector.requestCoinDeskList = function(params,callback){
+    pomelo.request("lobbysvr.lobbyHandler.queryCoinDeskList",params,function(data){
+        if(data instanceof Error){
+            return callback(data,null);
+        }
+        callback(null,data);
+    })
+}
