@@ -1,4 +1,6 @@
 var connector = require("./lib/connector");
+var Table = require("./model/table");
+var Player = require("./model/player");
 
 cc.Class({
     extends: cc.Component,
@@ -8,9 +10,13 @@ cc.Class({
             type:cc.Prefab,
             default:null
         },
-        tableUI:{
-            type:cc.Layout,
-            default:null
+        tableList:{
+            type:[Table],
+            default:[]
+        },
+        gameType:{
+            type:cc.String,
+            default:"coinDDZ"
         }
     },
 
@@ -24,6 +30,9 @@ cc.Class({
             global.roomList = roomList;
             self.initRoomUI(roomList);
         })
+
+        connector.on("ddz_onTableSitDown",this.onSitDown);
+        connector.on("onUserSitDown",this.onUserSitDown);
     },
 
     initRoomUI(roomList){
@@ -37,23 +46,79 @@ cc.Class({
             container.addChild(newRoomItem);
             newRoomItem.setPosition(0,- i * (newRoomItem.height + space));
             newRoomItem.setTag(roomList[i].roomIndex);
-            newRoomItem.on("mousedown",this.onRoomClick);
+            newRoomItem.on("mousedown",this.onRoomClick,this);
+        }
+    },
+    /*
+    *@brief:node.on(type, callback, target)
+    */
+    onRoomClick(event){
+        var param = {
+            roomIndex:event.currentTarget.getTag(),
+            gameType:"coinDDZ"
+        }
+        var self = this;
+        connector.requestCoinDeskList(param,function(err,tableNos){
+            if(!! err){
+                console.log("onRoomClick with error message--->",err.message);
+                return;
+            }
+            connector.requestCoinDeskInfo({deskNames:tableNos,gameType:self.gameType},function(err,tableInfos){
+                if (!! err){
+                    console.log("requestCoinDeskInfo with error message--->",err.message);
+                    return;
+                }
+                self.renderTables(tableNos,tableInfos);
+            })            
+        })
+    },
+    
+    renderTables(tableNos,tableInfos){
+        for(var i = 0; i < tableNos.length; i++){
+            var table = new Table(tableNos[i]);
+            this.tableList.push(table);
+        }
+
+        for(var i = 0; i < tableInfos.length; i++){
+            var playerList = tableInfos[i];
+            for(var j = 0; j < playerList.length; j++){
+                var player = new Player(playerList[j]);
+                this.tableList[i].addPlayer(player);
+            }
+        }
+        cc.log("------>table list",this.tableList);
+        //show table
+        var table = cc.find("Canvas/table");
+        table.active = true;
+        //
+        var table1 = this.tableList[5];
+        var playerList = table1.getPlayers();
+        for(var i = 0; i < playerList.length; i++){
+            var player = playerList[i];
+            var path = "player_" + player.chairNo + "/nickname_" + player.chairNo;
+            cc.find(path,table).getComponent(cc.Label).string = player.nickName;
         }
     },
 
-    onRoomClick(event){//notice:this is ref to click UI
-        // var table = cc.find("Canvas/table");
-        // table.active = true;
-        var param = {
-            roomIndex:this.getTag(),
-            gameType:"coinDDZ"
-        }
-        connector.requestCoinDeskList(param,function(err,res){
+    onChairClick(event,customerData){
+        connector.requestEnterDesk({
+            gameType:this.gameType,
+            deskName:this.tableList[5].getTableNo(),
+            pos:Number(customerData)
+        },function(err,res){
             if(!! err){
-                console.log("onRoomClick--->",err.message);
+                cc.log("enter desk error----->",err.message);
                 return;
             }
-            cc.log('requestCoinDeskList----->',res);
+            cc.log('table data',res.table);
         })
+    },
+
+    onSitDown(event){
+        cc.log("onSitDown---->event.detail",event.detail);
+    },
+
+    onUserSitDown(event){
+        cc.log("onUserSitDown---->event.detail",event.detail);
     }
 });
