@@ -1,6 +1,5 @@
-import { init } from './lib/pomelo-creator-client';
-
 var connector = require('./lib/connector');
+var Hero = require("./model/hero");
 
 cc.Class({
     extends: cc.Component,
@@ -25,7 +24,7 @@ cc.Class({
             var account = userInput;
             connector.entry(host,port,{account:account,platformId:1},function(err,res){
                 if(!! err){
-                    cc.log('tool----->',err.message);
+                    cc.log('login occur error',err.message);
                     return;
                 }
                 self.initHero(res.user);
@@ -35,7 +34,7 @@ cc.Class({
     },
 
     initHero:function(opts){
-        global.hero = opts;
+        global.hero = new Hero(opts);
     },
 
     switchToLobby:function(){

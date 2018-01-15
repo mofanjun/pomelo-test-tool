@@ -93,8 +93,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1136,
-      "height": 640
+      "width": 1280,
+      "height": 720
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -102,8 +102,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 568,
-      "y": 320
+      "x": 640,
+      "y": 360
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -145,8 +145,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1136,
-      "height": 640
+      "width": 1280,
+      "height": 720
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -173,7 +173,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "ec0ba2d8-96a7-4314-b32c-440d85c40184"
+      "__uuid__": "e4915632-6d3c-4f99-ab01-8ee519994da4"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -192,7 +192,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "btn_wechat",
+    "_name": "btn_tourist",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -226,8 +226,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 352,
-      "height": 173
+      "width": 397,
+      "height": 137
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -236,7 +236,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": -100
+      "y": -289
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -456,8 +456,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -7,
-      "y": 46
+      "x": 0,
+      "y": -145
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -475,7 +475,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "fa71ceed-f94e-4972-9ef4-6086ae0ed21a"
+      "__uuid__": "41480ae7-9e5e-468f-81ff-b2c162e45895"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -502,8 +502,8 @@
     "_enabled": true,
     "_designResolution": {
       "__type__": "cc.Size",
-      "width": 1136,
-      "height": 640
+      "width": 1280,
+      "height": 720
     },
     "_fitWidth": false,
     "_fitHeight": true

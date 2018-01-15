@@ -39,37 +39,10 @@ connector.entry = function(host,port,opts,callback){
     })
 }
 
-connector.requestRoomList = function(params,callback){
-    pomelo.request("lobbysvr.lobbyHandler.queryCoinRoomList",params,function(data){
+connector.createDesk = function(params,callback){
+    pomelo.request("lobbysvr.lobbyHandler.createDesk",params,function(data){
         if(data instanceof Error){
             return callback(data,null);
-        }
-        callback(null,data);
-    })
-}
-
-connector.requestCoinDeskList = function(params,callback){
-    pomelo.request("lobbysvr.lobbyHandler.queryCoinDeskList",params,function(data){
-        if(data instanceof Error){
-            return callback(data,null);
-        }
-        callback(null,data);
-    })
-}
-
-connector.requestCoinDeskInfo = function(params,callback){
-    pomelo.request("lobbysvr.lobbyHandler.queryCoinDeskInfo",params,function(data){
-        if(data instanceof Error){
-            return callback(data,null);
-        }
-        callback(null,data);
-    })
-}
-
-connector.requestEnterDesk = function(params,callback){
-    pomelo.request("coinDDZ.gameHandler.enterDesk",params,function(data){
-        if(data.code == Code.Fail){
-            return callback(new Error(data.msg),null);
         }
         callback(null,data);
     })
@@ -80,13 +53,7 @@ connector.afterLogin = function(){
 }
 
 connector.initEventListener = function(){
-    pomelo.on("ddz_onTableSitDown",function(data){
-        connector.emit("ddz_onTableSitDown",data);
-    })
-    
-    pomelo.on("OnUserSitDown",function(data){
-        connector.emit("OnUserSitDown",data);
-    })
+
 }
 
 

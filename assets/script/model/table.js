@@ -1,5 +1,6 @@
-var Table = function(tableNo){
-    this.tableNo = tableNo;
+var Table = function(gameType,tableName){
+    this.gameType = gameType;
+    this.tableName = tableName;
     this.players = [];
 }
 
