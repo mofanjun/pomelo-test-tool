@@ -2,7 +2,7 @@ var config = require("../config/config");
 
 var Code = {
     OK:200,
-    Fail:500
+    FAIL:500
 }
 
 var connector = Object.create(new cc.EventTarget());//inherits cc.EventTarget() instance
@@ -43,6 +43,24 @@ connector.createDesk = function(params,callback){
     pomelo.request("lobbysvr.lobbyHandler.createDesk",params,function(data){
         if(data instanceof Error){
             return callback(data,null);
+        }
+        callback(null,data);
+    })
+}
+
+connector.requestPlayerInfo = function(params,callback){
+    pomelo.request("gameDDZ.tableHandler.getPlayerInfo",params,function(data){
+        if(data.code == Code.FAIL){
+            return callback(new Error(data.msg),null);
+        }
+        callback(null,data);
+    })
+}
+
+connector.requestExitRoom = function(params,callback){
+    pomelo.request("gameDDZ.tableHandler.exit",params,function(data){
+        if(data.code == Code.FAIL){
+            return callback(new Error(data.msg),null);
         }
         callback(null,data);
     })

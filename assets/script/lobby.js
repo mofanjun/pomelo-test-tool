@@ -47,6 +47,7 @@ cc.Class({
                 return;
             }
             self.initTable(res.gameType,res.deskName);
+            self.gotoGameScene();
         })
     },
 
@@ -56,8 +57,14 @@ cc.Class({
     },
 
     onNumberClick(event,customData){
-        this.roomCode.push(Number(customData));
-        this.renderCode(this.roomCode);
+        if(this.roomCode.length < 6){
+            this.roomCode.push(Number(customData));
+            this.renderCode(this.roomCode);
+        }
+
+        if(this.roomCode.length == 6){
+            
+        }
     },
 
     onDelCode(event){
@@ -67,18 +74,21 @@ cc.Class({
 
     onResetCode(event){
         this.roomCode = [];
-        this.renderCode();
+        this.renderCode(this.roomCode);
+    },
+
+    onbtnCloseClick(event){
+        this.enterRoomPanel.active = false;
+        this.enterRoomPanel.setScale(1,1);
     },
 
     //TODO:UI 逻辑
     renderCode(code){
         var panel = cc.find("Canvas/enterRoomPanel/desk_code_panel");
-        cc.log("panel---->",panel);
         var prefix = "code";
         for(var i = 0; i < 6; i++){
             var item = panel.getChildByName(prefix + (i + 1));
             if(! code[i]){
-                cc.log("------->12345");
                 item.getComponent(cc.Label).string = "";
                 return;
             }
@@ -87,6 +97,12 @@ cc.Class({
     },
 
     initTable(gameType,deskName){
+        cc.log("gameType",gameType,"deskName",deskName);
         global.table = new Table(gameType,deskName);
-    }
+        
+    },
+
+    gotoGameScene(){
+        cc.director.loadScene("game");
+    },
 });

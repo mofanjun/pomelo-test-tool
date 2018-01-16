@@ -4,8 +4,12 @@ var Table = function(gameType,tableName){
     this.players = [];
 }
 
-Table.prototype.getTableNo = function(){
+Table.prototype.getTableName = function(){
     return this.tableNo
+}
+
+Table.prototype.getGameType = function(){
+    return this.gameType;
 }
 
 Table.prototype.addPlayer = function(player){

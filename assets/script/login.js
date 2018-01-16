@@ -28,7 +28,7 @@ cc.Class({
                     return;
                 }
                 self.initHero(res.user);
-                self.switchToLobby();
+                self.gotoLobbyScene();
             })
         })
     },
@@ -37,7 +37,7 @@ cc.Class({
         global.hero = new Hero(opts);
     },
 
-    switchToLobby:function(){
+    gotoLobbyScene:function(){
         cc.director.loadScene("lobby");
     }
 });
