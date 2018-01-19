@@ -1,5 +1,6 @@
 var connector = require("./lib/connector");
 var Table = require("./model/table");
+var Player = require("./model/player");
 
 
 cc.Class({
@@ -46,8 +47,16 @@ cc.Class({
                 cc.log("create desk err",err.message);
                 return;
             }
-            self.initTable(res.gameType,res.deskName);
-            self.gotoGameScene();
+            var gameType = res.gameType;
+            var deskName = res.deskName;
+            connector.requestEnterDesk({gameType:gameType,deskName:deskName},function(err,data){
+                if(!! err){
+                    cc.log("enter desk error",err.message);
+                    return;
+                }
+                self.initTable();
+                self.gotoGameScene();
+            })
         })
     },
 
@@ -96,13 +105,18 @@ cc.Class({
         }
     },
 
-    initTable(gameType,deskName){
-        cc.log("gameType",gameType,"deskName",deskName);
-        global.table = new Table(gameType,deskName);
-        
-    },
-
     gotoGameScene(){
         cc.director.loadScene("game");
     },
+
+    initTable(data){
+        var players = data.players;
+        delete data.players;
+        data.gameType = this.gameType;
+        var table = new Table(data);
+        for(var i = 0; i < players.length; i++){
+            var player = new Player(players[i]);
+            table.addPlayer(player);
+        }
+    }
 });

@@ -44,6 +44,18 @@ connector.createDesk = function(params,callback){
         if(data instanceof Error){
             return callback(data,null);
         }
+        if(!! data.err){
+            return callback(new Error(data.msg),null);
+        }
+        callback(null,data);
+    })
+}
+
+connector.requestEnterDesk = function(params,callback){
+    pomelo.request("gameDDZ.gameHandler.enterDesk",params,function(data){
+        if(data.code == Code.FAIL){
+            return callback(data.msg,null);
+        }
         callback(null,data);
     })
 }

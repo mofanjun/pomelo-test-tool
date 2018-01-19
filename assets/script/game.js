@@ -3,22 +3,41 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-
+        cardTextures:{
+            type:[cc.SpriteFrame],
+            default:[]
+        },
+        cardPrefab:{
+            type:cc.Prefab,
+            default:null
+        },
+        cardSpace:0,
     },
     // LIFE-CYCLE CALLBACKS
     onLoad () {
-        var table = global.table;
-        var gameType = table.getGameType();
-        var tableName = table.getTableName();
-        cc.log("gameType:",gameType,"deskName",tableName);
-        connector.requestPlayerInfo({gameType:gameType,deskName:tableName},function(err,data){
+        var self = this;
+        cc.loader.loadResDir("game",cc.SpriteFrame,function(err,assets){
             if(!! err){
-                console.log("player info----->",err.message);
+                cc.log("game scene load err",err,message);
                 return;
             }
-            var playerInfo = data.player;
-            cc.log("playerInfo------>",playerInfo);
+            self.cardTextures = assets;
+            self.initDeckUI();
         })
+    },
+
+    initGameUI(){
+
+    },
+
+    initDeckUI(){
+        var container = cc.find("Canvas/deck");
+        var anchorX = container.getChildByName("anchor").getPositionX();
+        for(var i = 0; i < 54; i++){
+            var card = cc.instantiate(this.cardPrefab).getComponent("Card");
+            container.addChild(card.node);
+            card.node.setPosition(anchorX + i * this.cardSpace,0);
+        }
     },
 
     onBtnExit() {
@@ -31,5 +50,9 @@ cc.Class({
             }
             cc.director.loadScene("lobby");
         })
+    },
+
+    onbtnDealCardClick(){
+        
     }
 });

@@ -5,7 +5,7 @@ var Hero = function(opts){
     this.nickName = opts.nickName;
     this.bankCoin = opts.bankCoin;
     this.coin = opts.coin;
-    this.faceId = opts.coin;
+    this.faceId = opts.faceId;
     this.sex = opts.sex;
     
     // this.ip = opts.ip;
@@ -17,6 +17,10 @@ var Hero = function(opts){
     // this.sumMoney = opts.sumMoney;
     // this.vipLevel = opts.vipLevel;
     // this.yinlevel = opts.yinlevel;
+}
+
+Hero.prototype.getUid = function(){
+    return this.uid;
 }
 
 module.exports = Hero;
